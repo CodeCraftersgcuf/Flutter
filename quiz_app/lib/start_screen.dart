@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  // Constructor now requires a valid function
+  const StartScreen(this.startQuiz, {super.key});
 
-  dosomething() {
-    print("CLicked me");
-  }
+  // Non-null callback to start the quiz
+  final void Function() startQuiz;
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            'assests/images/quiz-logo.png',
+            'assests/images/quiz-logo.png', // Ensure the asset path is correct
             width: 300,
             color: const Color.fromARGB(150, 255, 255, 255),
           ),
           const SizedBox(
             height: 80,
           ),
-          const Text(
+          Text(
             'Learn Flutter in the Fun way!',
-            style: TextStyle(
+            style: GoogleFonts.lato(
               color: Colors.white,
               fontSize: 24,
             ),
@@ -32,13 +33,14 @@ class StartScreen extends StatelessWidget {
             height: 50,
           ),
           OutlinedButton.icon(
-            onPressed: dosomething,
+            onPressed:
+                startQuiz, // Using the valid function passed from Quiz widget
             label: const Text(
               'Start Quiz',
               style: TextStyle(color: Colors.white, fontSize: 23),
             ),
-            icon: const Icon(Icons.arrow_right_alt, color: Colors.white,),
-          )
+            icon: const Icon(Icons.arrow_right_alt, color: Colors.white),
+          ),
         ],
       ),
     );
