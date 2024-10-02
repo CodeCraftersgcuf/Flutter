@@ -1,6 +1,8 @@
+import 'package:first_app/data/questions.dart';
 import 'package:first_app/questions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app/start_screen.dart';
+import 'package:first_app/results_screen.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -12,8 +14,8 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  // activeScreen is initialized with StartScreen, so it's not null
-  var activeScreen = 'start-screen'; // temporary empty function
+  List<String> selectedAnswers = [];
+  String activeScreen = 'start-screen'; // Temporary initial screen
 
   // Function to switch the screen
   void switchScreen() {
@@ -22,11 +24,36 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  void chooseAnswers(String answer) {
+    selectedAnswers.add(answer);
+
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        activeScreen = 'results-screen';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final screenWidget = activeScreen == 'start-screen'
-        ? StartScreen(switchScreen)
-        : const QuestionsScreen();
+    Widget screenWidget;
+
+    // Determine which screen to display based on activeScreen
+    switch (activeScreen) {
+      case 'start-screen':
+        screenWidget = StartScreen(switchScreen);
+        break;
+      case 'questions-screen':
+        screenWidget = QuestionsScreen(
+          onSelectAnswer: chooseAnswers,
+        );
+        break;
+      case 'results-screen':
+        screenWidget = const ResultsScreen();
+        break;
+      default:
+        screenWidget = StartScreen(switchScreen);
+    }
 
     return MaterialApp(
       home: Scaffold(
@@ -41,7 +68,6 @@ class _QuizState extends State<Quiz> {
               end: Alignment.bottomRight,
             ),
           ),
-          // Use the activeScreen without a null check since we initialized it
           child: screenWidget,
         ),
       ),
