@@ -26,10 +26,25 @@ class _ExpensesState extends State<Expenses> {
       date: DateTime.now(),
     ),
   ];
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => const Text("Modal Screen"),
+    );
+  }
 
   @override
   Widget build(context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("FLutter Expense Tracker"),
+        actions: [
+          IconButton(
+            onPressed: _openAddExpenseOverlay,
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           const Text("The Chart"),
